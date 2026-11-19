@@ -13,3 +13,7 @@ variable "vnet_cidr" {
 variable "subnet_cidr" {
   type = list(string)
 }
+variable "allowed_ssh_ip" {
+  description = "IP publico autorizado para acesso SSH"
+  type        = string
+}

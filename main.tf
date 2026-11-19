@@ -31,6 +31,7 @@ module "network" {
   resource_group_name = azurerm_resource_group.rg_lab.name
   vnet_cidr           = var.vnet_cidr
   subnet_cidr         = var.subnet_cidr
+  allowed_ssh_ip      = var.allowed_ssh_ip
 }
 
 # 6. IP Publico
@@ -80,4 +81,13 @@ resource "azurerm_linux_virtual_machine" "vm_lab" {
     sku       = "22_04-lts-gen2"
     version   = "latest"
   }
+  custom_data = base64encode(<<-EOF
+    #!/bin/bash
+    apt-get update -y
+    apt-get install -y nginx
+    systemctl enable nginx
+    systemctl start nginx
+    echo "<h1>Azure Lab - Provisioned via Terraform & Cloud-Init</h1>" > /var/www/html/index.html
+  EOF
+  )
 }
