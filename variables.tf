@@ -28,3 +28,7 @@ variable "vm_size" {
   type = string
   default = "Standard_D2als_v7"
 }
+variable "allowed_ssh_ip" {
+  description = "Meu IP publico atual (ex: 200.x.x.x/32)"
+  type        = string
+}
