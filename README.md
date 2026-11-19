@@ -10,6 +10,16 @@ This repository demonstrates an end-to-end **Infrastructure as Code (IaC)** depl
 
 Designed with an enterprise infrastructure and network security mindset, this project translates traditional on-premises principles—such as perimeter firewall segmentation, centralized configuration policies, and least-privilege access—into declarative, reusable, and automated cloud infrastructure.
 
+## Scope & Architectural Trade-offs
+
+This repository is a **sandbox and Proof of Concept (PoC)** designed to demonstrate modular Infrastructure as Code (IaC) patterns, remote state management, and automated server bootstrapping on Microsoft Azure.
+
+To keep testing fast and cost-effective, the following intentional trade-offs were made compared to a production environment:
+
+- **Network Exposure:** The virtual machine uses a direct Public IP for immediate validation. In production, compute instances would reside in private subnets accessed exclusively via **Azure Bastion** or a corporate VPN.
+- **Authentication:** Password authentication is enabled for lab convenience. Production baselines enforce **SSH key authentication** (`disable_password_authentication = true`) integrated with Azure Key Vault.
+- **Traffic Encryption:** Port `80` (HTTP) is open to validate the `cloud-init` Nginx deployment. Production workloads would enforce **HTTPS/TLS** behind an Azure Application Gateway or Load Balancer with WAF policies.
+
 ---
 
 ## Architecture & Key Features
