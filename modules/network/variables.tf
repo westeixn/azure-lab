@@ -17,3 +17,7 @@ variable "allowed_ssh_ip" {
   description = "IP publico autorizado para acesso SSH"
   type        = string
 }
+variable "tags" {
+  description = "Tags para os recursos"
+  type        = map(string)
+}

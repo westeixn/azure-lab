@@ -4,6 +4,7 @@ resource "azurerm_virtual_network" "vnet_lab" {
   location            = var.location
   resource_group_name = var.resource_group_name
   address_space       = var.vnet_cidr
+  tags = var.tags
 }
 
 ### Subnet (VLAN)
@@ -19,6 +20,7 @@ resource "azurerm_network_security_group" "nsg_lab" {
   name                = "nsg-servidores"
   location            = var.location
   resource_group_name = var.resource_group_name
+  tags = var.tags
 
  security_rule {
     name                       = "Allow-SSH"

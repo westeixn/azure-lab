@@ -22,6 +22,11 @@ provider "azurerm" {
 resource "azurerm_resource_group" "rg_lab" {
   name     = "rg-lab-profissional"
   location = var.location
+  tags = {
+    environment = local.environment
+    project     = local.project
+    managed_by  = local.managed_by
+  }
 }
 
 ### 2. Network Module
@@ -32,6 +37,11 @@ module "network" {
   vnet_cidr           = var.vnet_cidr
   subnet_cidr         = var.subnet_cidr
   allowed_ssh_ip      = var.allowed_ssh_ip
+  tags = {
+    environment = local.environment
+    project     = local.project
+    managed_by  = local.managed_by
+  }
 }
 
 # 6. IP Publico
@@ -41,6 +51,11 @@ resource "azurerm_public_ip" "pip_lab" {
   resource_group_name = azurerm_resource_group.rg_lab.name
   allocation_method   = "Static"
   sku                 = "Standard"
+  tags = {
+    environment = local.environment
+    project     = local.project
+    managed_by  = local.managed_by
+  }
 }
 
 # 7. Placa de Rede (NIC) conectada na Subnet e no IP Publico
@@ -48,6 +63,11 @@ resource "azurerm_network_interface" "nic_lab" {
   name                = "nic-vm-linux"
   location            = var.location
   resource_group_name = azurerm_resource_group.rg_lab.name
+  tags = {
+    environment = local.environment
+    project     = local.project
+    managed_by  = local.managed_by
+  } 
 
   ip_configuration {
     name                          = "internal"
@@ -68,6 +88,12 @@ resource "azurerm_linux_virtual_machine" "vm_lab" {
     username   = var.username_vm
     public_key = file(var.ssh_public_key)
   }
+
+  tags = {
+    environment = local.environment
+    project     = local.project
+    managed_by  = local.managed_by
+  } 
 
   network_interface_ids = [
     azurerm_network_interface.nic_lab.id
