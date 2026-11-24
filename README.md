@@ -17,7 +17,7 @@ This repository is a **sandbox and Proof of Concept (PoC)** designed to demonstr
 To keep testing fast and cost-effective, the following intentional trade-offs were made compared to a production environment:
 
 - **Network Exposure:** The virtual machine uses a direct Public IP for immediate validation. In production, compute instances would reside in private subnets accessed exclusively via **Azure Bastion** or a corporate VPN.
-- **Authentication:** Password authentication is enabled for lab convenience. Production baselines enforce **SSH key authentication** (`disable_password_authentication = true`) integrated with Azure Key Vault.
+- **Authentication:** Password authentication is disabled in favor of RSA SSH keys for lab convenience. Production baselines enforce centralized key management via **Azure Key Vault**.
 - **Traffic Encryption:** Port `80` (HTTP) is open to validate the `cloud-init` Nginx deployment. Production workloads would enforce **HTTPS/TLS** behind an Azure Application Gateway or Load Balancer with WAF policies.
 
 ---
