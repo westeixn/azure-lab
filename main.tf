@@ -63,8 +63,11 @@ resource "azurerm_linux_virtual_machine" "vm_lab" {
   location                        = var.location
   size                            = var.vm_size
   admin_username                  = var.username_vm
-  admin_password                  = var.password_vm
-  disable_password_authentication = false
+  disable_password_authentication = true
+  admin_ssh_key {
+    username   = var.username_vm
+    public_key = file(var.ssh_public_key)
+  }
 
   network_interface_ids = [
     azurerm_network_interface.nic_lab.id

@@ -32,3 +32,8 @@ variable "allowed_ssh_ip" {
   description = "Meu IP publico atual (ex: 200.x.x.x/32)"
   type        = string
 }
+variable "ssh_public_key" {
+  description = "Chave publica SSH para acesso a VM"
+  type        = string
+  default     = "~/.ssh/id_rsa.pub"
+}
