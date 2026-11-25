@@ -3,6 +3,7 @@
 ![Terraform](https://img.shields.io/badge/Terraform-IaC-623CE4?style=flat&logo=terraform)
 ![Microsoft Azure](https://img.shields.io/badge/Microsoft%20Azure-Cloud-0078D4?style=flat&logo=microsoftazure)
 ![Linux](https://img.shields.io/badge/Ubuntu-Cloud--Init-E95420?style=flat&logo=ubuntu)
+[![Terraform CI](https://github.com/westeixn/azure-lab/actions/workflows/terraform-ci.yml/badge.svg)](https://github.com/westeixn/azure-lab/actions/workflows/terraform-ci.yml)
 
 ## Overview
 
@@ -47,22 +48,32 @@ Terraform state is stored remotely using the `azurerm` backend (`Azure Blob Stor
 * **Single Source of Truth:** Keeps sensitive infrastructure metadata off local workstations.
 * **Concurrency Protection:** Leverages Azure Blob Storage native lease mechanisms for **State Locking**, preventing state corruption during concurrent operations.
 
+### 5. FinOps & Resource Tagging Governance
+All compatible top-level resources across the root configuration and network module receive standardized metadata (`project`, `environment`, `managed_by`) centralized via Terraform `locals` and passed as a `map(string)`—enforcing cost traceability and the DRY principle.
+
+### 6. Continuous Integration (GitHub Actions)
+An automated CI workflow (`.github/workflows/terraform-ci.yml`) runs on every `push` and `pull_request`, enforcing code formatting (`terraform fmt -check -recursive`) and static configuration validation (`terraform validate` with `-backend=false`).
+
 ---
 
 ## Repository Structure
 
 ```text
 azure-lab/
+├── .github/
+│   └── workflows/
+│       └── terraform-ci.yml   # Automated fmt and validate CI pipeline
 ├── modules/
 │   └── network/
-│       ├── main.tf          # VNet, Subnet, NSG rules, and Subnet-NSG association
-│       ├── variables.tf     # Required input contract for the network module
-│       └── outputs.tf       # Exports vnet_id and subnet_id to root resources
-├── .gitignore               # Excludes .terraform/, state files, and *.tfvars
-├── main.tf                  # Resource Group, network module call, Public IP, NIC, and VM
-├── variables.tf             # Root input variables (location, CIDRs, allowed_ssh_ip, VM specs)
-├── outputs.tf               # Exposes VNet ID, Subnet ID, Private IP, and Public IP
-└── README.md                # Project documentation
+│       ├── main.tf            # VNet, Subnet, NSG rules, and Subnet-NSG association
+│       ├── variables.tf       # Input contract (CIDRs, allowed_ssh_ip, tags map)
+│       └── outputs.tf         # Exports vnet_id and subnet_id to root resources
+├── .gitignore                 # Excludes .terraform/, state files, and *.tfvars
+├── locals.tf                  # Centralized governance tags (Single Source of Truth)
+├── main.tf                    # Resource Group, network module call, Public IP, NIC, and VM
+├── variables.tf               # Root input variables (location, CIDRs, SSH key path, VM specs)
+├── outputs.tf                 # Exposes VNet ID, Subnet ID, Private IP, and Public IP
+└── README.md                  # Project documentation
 ```
 
 ---
@@ -128,7 +139,7 @@ terraform destroy
 | `allowed_ssh_ip` | Authorized public IPv4 CIDR (`/32`) for SSH ingress | `string` | No |
 | `vm_size` | Azure Virtual Machine SKU | `string` | No |
 | `username_vm` | Administrator username for the Linux VM | `string` | No |
-| `password_vm` | Administrator password for the Linux VM | `string` | Yes |
+| `ssh_public_key_path` | Local path to the RSA SSH public key | `string` | No |
 
 ### Outputs
 | Name | Description |
