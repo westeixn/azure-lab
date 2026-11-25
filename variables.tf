@@ -18,11 +18,6 @@ variable "username_vm" {
   type        = string
   default     = "adminuser"
 }
-variable "password_vm" {
-  description = "Senha do usuário para login na VM"
-  type        = string
-  default     = "SenhaForteLab@2026"
-}
 variable "vm_size" {
   description = "Tamanho da VM"
   type        = string

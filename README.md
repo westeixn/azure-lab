@@ -153,7 +153,7 @@ terraform destroy
 
 ## Author
 
-**Weslley Teixeira Negrão**  
+**Weslley Negrão**  
 IT Infrastructure Analyst transitioning into Cloud & DevOps Engineering | Focused on Microsoft Azure, Terraform (IaC), Network Security, and Automation.  
 * LinkedIn: [linkedin.com/in/westeixn](https://www.linkedin.com/in/westeixn)
 * GitHub: [github.com/westeixn](https://github.com/westeixn)
