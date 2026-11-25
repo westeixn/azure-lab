@@ -1,7 +1,7 @@
 name: Terraform CI
 on: [push, pull_request]
 jobs:
-  terraform:
+  Check_Terraform_Code:
     runs-on: ubuntu-latest
     steps:
       - name: download repository
@@ -10,7 +10,7 @@ jobs:
       - name: install terraform
         uses: hashicorp/setup-terraform@v4
 
-      - name: Staring Terraform Witout Backend
+      - name: Starting Terraform Without Backend
         run: terraform init -backend=false
 
       - name: Running Terraform Fmt

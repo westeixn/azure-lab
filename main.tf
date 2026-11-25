@@ -6,12 +6,12 @@ terraform {
     }
   }
 
-backend "azurerm" {
-  resource_group_name  = "rg-terraform-state"
-  storage_account_name = "sttfstatelab999"
-  container_name       = "tfstate"
-  key                  = "lab.terraform.tfstate"
-}
+  backend "azurerm" {
+    resource_group_name  = "rg-terraform-state"
+    storage_account_name = "sttfstatelab999"
+    container_name       = "tfstate"
+    key                  = "lab.terraform.tfstate"
+  }
 }
 
 provider "azurerm" {
@@ -67,7 +67,7 @@ resource "azurerm_network_interface" "nic_lab" {
     environment = local.environment
     project     = local.project
     managed_by  = local.managed_by
-  } 
+  }
 
   ip_configuration {
     name                          = "internal"
@@ -93,7 +93,7 @@ resource "azurerm_linux_virtual_machine" "vm_lab" {
     environment = local.environment
     project     = local.project
     managed_by  = local.managed_by
-  } 
+  }
 
   network_interface_ids = [
     azurerm_network_interface.nic_lab.id
